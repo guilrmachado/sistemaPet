@@ -1,6 +1,7 @@
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ public class Main {
     public static final String NAO_INFORMADO = "NÃO INFORMADO";
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("-----FORMULÁRIO-----");
+        //System.out.println("-----FORMULÁRIO-----");
         try {
             Path arquivo = Paths.get("formulario.txt");
             List<String> linhas = Files.readAllLines(arquivo);
@@ -23,6 +24,7 @@ public class Main {
 
         while (true) {
             int opcao = mostrarMenu(sc);
+            System.out.println("Você escolheu a opção: " + opcao);
             if (opcao == 1) {
                 System.out.println("CADASTRO DE PETS:");
 
@@ -34,19 +36,20 @@ public class Main {
                         System.out.print(perguntas.get(i));
 
                         if (i == 3) {
-                            System.out.print("Rua: ");
+                            sc.nextLine();
+                            System.out.print("Rua -  ");
                             String rua = sc.nextLine();
                             pet.setRua(rua);
 
-                            System.out.print("Número da casa: ");
+                            System.out.print("Número da casa - ");
                             String casa = sc.nextLine();
                             pet.setCasa(Integer.parseInt(casa));
 
-                            System.out.print("Bairro: ");
+                            System.out.print("Bairro - ");
                             String bairro = sc.nextLine();
                             pet.setBairro(bairro);
 
-                            System.out.print("Cidade: ");
+                            System.out.print("Cidade - ");
                             String cidade = sc.nextLine();
                             pet.setCidade(cidade);
 
@@ -91,6 +94,8 @@ public class Main {
                     }
                     System.out.println("Pet cadastrado com sucesso!");
                     System.out.println(pet.toString());
+                    Pet.salvarPetEmArquivo(pet);
+                    System.out.println("Pet salvo no arquivo com sucesso!");
 
 
                 } catch (IllegalArgumentException e) {
@@ -103,7 +108,9 @@ public class Main {
                 System.out.println("Encerrando sistema...");
                 break;
             }
-            System.out.println("Você escolheu a opção: " + opcao);
+            if (opcao == 2){
+
+            }
         }
     }
 
@@ -134,7 +141,7 @@ public class Main {
         if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome não pode ser vazio.");
         }
-        
+
         if (!nome.matches("[A-Za-zÀ-ÿ ]+")) {
             throw new IllegalArgumentException("Nome só pode conter letras.");
         }
@@ -180,8 +187,6 @@ public class Main {
         if (!raca.matches("[A-Za-zÀ-ÿ ]+")) {
             throw new IllegalArgumentException("Raça inválida.");
         }
-
         return raca;
     }
-
 }

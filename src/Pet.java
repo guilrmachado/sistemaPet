@@ -1,3 +1,11 @@
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.Normalizer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Pet {
     private String nome;
     private TIPO tipo;
@@ -108,15 +116,57 @@ public class Pet {
 
     @Override
     public String toString() {
-        return "Pet{" +
-                "nome='" + nome + '\'' +
-                ", tipo=" + tipo +
-                ", sexo=" + sexo +
-                ", idade=" + idade +
-                ", peso=" + peso +
-                ", raca='" + raca + '\'' +
-                ", endereco='" + rua + ", " + casa + " - " + bairro + " / " + cidade + '\'' +
-                '}';
+        return "Nome: " + nome + "\n" +
+                "Tipo: " + tipo + "\n" +
+                "Sexo: " + sexo + "\n" +
+                "Idade: " + idade + "\n" +
+                "Peso: " + peso + "\n" +
+                "Rua: " + rua + "\n" +
+                "Número: " + casa + "\n" +
+                "Bairro: " + bairro + "\n" +
+                "Cidade: " + cidade + "\n" +
+                "------------------------\n";
+    }
+
+    public static void salvarPetEmArquivo(Pet pet) throws Exception {
+
+        // Pasta
+        Path pasta = Paths.get("petsCadastrados");
+        Files.createDirectories(pasta);
+
+        // Data e hora
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
+        String dataHora = LocalDateTime.now().format(formatter);
+
+        // Nome formatado
+        String nomeFormatado = Normalizer.normalize(pet.getNome(), Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "") // remove acentos
+                .replaceAll("\\s+", "")          // remove espaços
+                .toUpperCase();
+
+        // Nome final do arquivo
+        String nomeArquivo = dataHora + "-" + nomeFormatado + ".txt";
+
+        Path arquivoFinal = pasta.resolve(nomeArquivo);
+
+        // Conteúdo do arquivo
+        String conteudo =
+                pet.getNome() + "\n" +
+                        pet.getTipo() + "\n" +
+                        pet.getSexo() + "\n" +
+                        pet.getRua() + ", " + pet.getCasa() + ", " + pet.getBairro() + ", " + pet.getCidade() + "\n" +
+                        pet.getIdade() + " anos\n" +
+                        pet.getPeso() + " kg\n" +
+                        pet.getRaca();
+
+        // Escreve no arquivo
+        Files.write(
+                arquivoFinal,
+                conteudo.getBytes(),
+                StandardOpenOption.CREATE
+        );
+
+        System.out.println("Arquivo criado em: " + arquivoFinal.toString());
     }
 }
 
