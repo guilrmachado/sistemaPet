@@ -1,7 +1,6 @@
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.List;
 import java.util.Scanner;
 
@@ -109,7 +108,12 @@ public class Main {
                 break;
             }
             if (opcao == 2){
-
+                buscarPet(sc);
+                break;
+            }
+            if (opcao == 3){
+                alterarPet(sc);
+                break;
             }
         }
     }
@@ -118,9 +122,9 @@ public class Main {
         while (true) {
             System.out.println("-----MENU INICIAL-----");
             System.out.println("1 - Cadastrar um novo pet");
-            System.out.println("2 - Alterar os dados do pet cadastrado");
-            System.out.println("3 - Deletar um pet cadastrado");
-            System.out.println("4 - Listar todos os pets cadastrados");
+            System.out.println("2 - Buscar dados do pet cadastrado");
+            System.out.println("3 - Alterar um pet cadastrado");
+            System.out.println("4 - Deletar um pet cadastrado");
             System.out.println("5 - Listar pets por algum critério (idade, nome, raça)");
             System.out.println("6 - Sair");
             String entrada = sc.nextLine();
@@ -189,4 +193,137 @@ public class Main {
         }
         return raca;
     }
+
+    public static File buscarPet(Scanner sc){
+        System.out.println("-----BUSCA DE PET-----");
+        System.out.println("Escolha por qual critério você quer fazer a busca:");
+        System.out.println("1 - Nome ou sobrenome");
+        System.out.println("2 - Tipo");
+        System.out.println("3 - Sexo");
+        System.out.println("4 - Endereço");
+        System.out.println("5 - Idade");
+        System.out.println("6 - Peso");
+        System.out.println("7 - Raça");
+        int opcao = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Digite o valor para busca: ");
+        String termo = sc.nextLine().toUpperCase();
+
+        File pasta = new File("petsCadastrados");
+        File[] arquivos = pasta.listFiles((dir, name) -> name.endsWith(".txt"));
+
+        if (arquivos == null || arquivos.length == 0) {
+            System.out.println("Nenhum pet cadastrado.");
+            return null;
+        }
+
+        boolean encontrou = false;
+
+        for (File arquivo : arquivos) {
+            try {
+                List<String> linhas = Files.readAllLines(arquivo.toPath());
+
+                int indiceLinha = opcao - 1;
+
+                if (indiceLinha < 0 || indiceLinha >= linhas.size()) {
+                    continue;
+                }
+
+                String campoArquivo = linhas.get(indiceLinha).toUpperCase();
+                File arquivoEncontrado = null;
+                if (campoArquivo.contains(termo)) {
+                    arquivoEncontrado = arquivo;
+                    return arquivoEncontrado;
+                }
+
+            } catch (IOException e) {
+                System.out.println("Erro ao ler arquivo: " + arquivo.getName());
+            }
+        }
+
+        if (!encontrou) {
+            System.out.println("\nNenhum pet encontrado com esse critério.");
+        }
+        return null;
+    }
+    public static void alterarPet(Scanner sc){
+        while (true) {
+            System.out.println("-----ALTERAÇÃO DE PET-----");
+            File arquivoSelecionado = buscarPet(sc);
+            if (arquivoSelecionado == null){
+                System.out.println("Nenhum pet encontrado para alteração.");
+                return;
+            }
+            System.out.println("Você deseja alterar algum dado desse pet?");
+            System.out.println("1 - Sim");
+            System.out.println("2 - Não");
+            int sn = sc.nextInt();
+            if (sn == 1){
+                try {
+                    List<String> linhas = Files.readAllLines(arquivoSelecionado.toPath());
+                    System.out.println("Qual dado do pet você deseja alterar? ");
+                    System.out.println("1 - Nome ou sobrenome");
+                    System.out.println("2 - Endereço");
+                    System.out.println("3 - Idade");
+                    System.out.println("4 - Peso");
+                    System.out.println("5 - Raça");
+                    int dado = sc.nextInt();
+                    sc.nextLine();
+                    if (dado == 1) {
+                        int indiceLinha = 0;
+                        System.out.println("Digite o novo nome completo do pet: ");
+                        String novoNome = sc.nextLine();
+                        linhas.set(indiceLinha, novoNome);
+                        Files.write(arquivoSelecionado.toPath(), linhas);
+                        System.out.println("Nome atualizado com sucesso.");
+                        break;
+                    }
+                    if (dado == 2) {
+                        int indiceLinha = 3;
+                        System.out.println("Digite o novo endereço completo do pet: ");
+                        String novoEndereco = sc.nextLine();
+                        linhas.set(indiceLinha, novoEndereco);
+                        Files.write(arquivoSelecionado.toPath(), linhas);
+                        System.out.println("Endereço atualizado com sucesso.");
+                        break;
+                    }
+                    if (dado == 3) {
+                        int indiceLinha = 4;
+                        System.out.println("Digite a nova idade do pet: ");
+                        String novaIdade = sc.nextLine();
+                        linhas.set(indiceLinha, novaIdade);
+                        Files.write(arquivoSelecionado.toPath(), linhas);
+                        System.out.println("Idade atualizada com sucesso.");
+                        break;
+                    }
+                    if (dado == 4) {
+                        int indiceLinha = 5;
+                        System.out.println("Digite o novo peso do pet: ");
+                        String novoPeso = sc.nextLine();
+                        linhas.set(indiceLinha, novoPeso);
+                        Files.write(arquivoSelecionado.toPath(), linhas);
+                        System.out.println("Peso atualizado com sucesso.");
+                        break;
+                    }
+                    if (dado == 5) {
+                        int indiceLinha = 6;
+                        System.out.println("Digite a nova raça do pet: ");
+                        String novaRaca = sc.nextLine();
+                        linhas.set(indiceLinha, novaRaca);
+                        Files.write(arquivoSelecionado.toPath(), linhas);
+                        System.out.println("Raça atualizada com sucesso.");
+                        break;
+                    }
+                } catch (IOException e){
+                    System.out.println("Erro ao alterar o arquivo: " + e.getMessage());
+                }
+
+            }
+            if (sn == 2){
+                System.out.print("Fim do programa.");
+                break;
+            }
+        }
+    }
+
 }
