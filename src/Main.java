@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -108,12 +109,12 @@ public class Main {
                 break;
             }
             if (opcao == 2){
-                buscarPet(sc);
-                break;
+                buscarPet(sc,false);
+                continue;
             }
             if (opcao == 3){
                 alterarPet(sc);
-                break;
+                continue;
             }
         }
     }
@@ -194,7 +195,7 @@ public class Main {
         return raca;
     }
 
-    public static File buscarPet(Scanner sc){
+    public static File buscarPet(Scanner sc, boolean selecionarPet){
         System.out.println("-----BUSCA DE PET-----");
         System.out.println("Escolha por qual critério você quer fazer a busca:");
         System.out.println("1 - Nome ou sobrenome");
@@ -217,39 +218,67 @@ public class Main {
             return null;
         }
 
-        boolean encontrou = false;
+        List<File> petsEncontrados = new ArrayList<>();
+        List<List<String>> dadosPets = new ArrayList<>();
 
         for (File arquivo : arquivos) {
             try {
                 List<String> linhas = Files.readAllLines(arquivo.toPath());
-
                 int indiceLinha = opcao - 1;
 
                 if (indiceLinha < 0 || indiceLinha >= linhas.size()) {
                     continue;
                 }
-
                 String campoArquivo = linhas.get(indiceLinha).toUpperCase();
-                File arquivoEncontrado = null;
-                if (campoArquivo.contains(termo)) {
-                    arquivoEncontrado = arquivo;
-                    return arquivoEncontrado;
-                }
 
+                if (campoArquivo.contains(termo)) {
+                    petsEncontrados.add(arquivo);
+                    dadosPets.add(linhas);
+                }
             } catch (IOException e) {
                 System.out.println("Erro ao ler arquivo: " + arquivo.getName());
             }
         }
-
-        if (!encontrou) {
-            System.out.println("\nNenhum pet encontrado com esse critério.");
+        if (petsEncontrados.isEmpty()) {
+            System.out.println("Nenhum pet encontrado com esse critério.");
+            return null;
         }
-        return null;
+
+        System.out.println("\nPets encontrados:");
+        for (int i = 0; i < dadosPets.size(); i++) {
+            List<String> pet = dadosPets.get(i);
+
+            System.out.println(
+                    (i + 1) + ". " +
+                            pet.get(0) + " - " +
+                            pet.get(1) + " - " +
+                            pet.get(2) + " - " +
+                            pet.get(3) + " - " +
+                            pet.get(4) + " - " +
+                            pet.get(5) + " - " +
+                            pet.get(6)
+            );
+        }
+        if (!selecionarPet) {
+            return null;
+        }
+
+        System.out.print("Escolha o número do pet para selecionar: ");
+        int escolha = sc.nextInt();
+        sc.nextLine();
+
+        if (escolha < 1 || escolha > petsEncontrados.size()) {
+            System.out.println("Opção inválida.");
+            return null;
+        }
+
+        return petsEncontrados.get(escolha - 1);
     }
+
     public static void alterarPet(Scanner sc){
         while (true) {
             System.out.println("-----ALTERAÇÃO DE PET-----");
-            File arquivoSelecionado = buscarPet(sc);
+            File arquivoSelecionado = buscarPet(sc, true);
             if (arquivoSelecionado == null){
                 System.out.println("Nenhum pet encontrado para alteração.");
                 return;
@@ -258,6 +287,11 @@ public class Main {
             System.out.println("1 - Sim");
             System.out.println("2 - Não");
             int sn = sc.nextInt();
+            sc.nextLine();
+            if (sn != 1 && sn != 2) {
+                System.out.println("Opção inválida.");
+                continue;
+            }
             if (sn == 1){
                 try {
                     List<String> linhas = Files.readAllLines(arquivoSelecionado.toPath());
@@ -276,34 +310,41 @@ public class Main {
                         linhas.set(indiceLinha, novoNome);
                         Files.write(arquivoSelecionado.toPath(), linhas);
                         System.out.println("Nome atualizado com sucesso.");
-                        break;
+                        return;
                     }
                     if (dado == 2) {
                         int indiceLinha = 3;
-                        System.out.println("Digite o novo endereço completo do pet: ");
-                        String novoEndereco = sc.nextLine();
+                        System.out.println("Digite a nova rua do pet: ");
+                        String novaRua = sc.nextLine();
+                        System.out.println("Digite o novo apartamento do pet: ");
+                        String novoApe = sc.nextLine();
+                        System.out.println("Digite o novo bairro do pet: ");
+                        String novoBairro = sc.nextLine();
+                        System.out.println("Digite a nova cidade do pet: ");
+                        String novaCidade = sc.nextLine();
+                        String novoEndereco = novaRua + ", " + novoApe + ", " + novoBairro + ", " + novaCidade;
                         linhas.set(indiceLinha, novoEndereco);
                         Files.write(arquivoSelecionado.toPath(), linhas);
                         System.out.println("Endereço atualizado com sucesso.");
-                        break;
+                        return;
                     }
                     if (dado == 3) {
                         int indiceLinha = 4;
                         System.out.println("Digite a nova idade do pet: ");
                         String novaIdade = sc.nextLine();
-                        linhas.set(indiceLinha, novaIdade);
+                        linhas.set(indiceLinha, (novaIdade + " anos"));
                         Files.write(arquivoSelecionado.toPath(), linhas);
                         System.out.println("Idade atualizada com sucesso.");
-                        break;
+                        return;
                     }
                     if (dado == 4) {
                         int indiceLinha = 5;
                         System.out.println("Digite o novo peso do pet: ");
                         String novoPeso = sc.nextLine();
-                        linhas.set(indiceLinha, novoPeso);
+                        linhas.set(indiceLinha, (novoPeso + " kg"));
                         Files.write(arquivoSelecionado.toPath(), linhas);
                         System.out.println("Peso atualizado com sucesso.");
-                        break;
+                        return;
                     }
                     if (dado == 5) {
                         int indiceLinha = 6;
@@ -312,7 +353,11 @@ public class Main {
                         linhas.set(indiceLinha, novaRaca);
                         Files.write(arquivoSelecionado.toPath(), linhas);
                         System.out.println("Raça atualizada com sucesso.");
-                        break;
+                        return;
+                    }
+                    if (dado < 1 || dado > 5){
+                        System.out.println("Opção inválida. Tente novamente.");
+                        continue;
                     }
                 } catch (IOException e){
                     System.out.println("Erro ao alterar o arquivo: " + e.getMessage());
@@ -320,8 +365,8 @@ public class Main {
 
             }
             if (sn == 2){
-                System.out.print("Fim do programa.");
-                break;
+                System.out.print("Voltando ao menu...");
+                return;
             }
         }
     }
