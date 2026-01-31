@@ -1,17 +1,17 @@
 
 # 🐾 Sistema de Cadastro de Pets (CLI)
 
-Projeto desenvolvido em Java como parte de um desafio prático, utilizando conceitos de
-Orientação a Objetos e boas práticas de programação.
+Projeto desenvolvido em Java como parte de um desafio prático, utilizando conceitos de Orientação a Objetos e boas práticas de programação.
+
 ---
 
-## 📌 Descrição
+##  Descrição
 
-Aplicação de linha de comando (CLI) para gerenciamento de pets, permitindo
-cadastrar, buscar, alterar e deletar registros, com persistência dos dados em arquivos `.txt`.
+Aplicação de linha de comando (CLI) para gerenciamento de pets, permitindo cadastrar, buscar, alterar e deletar registros, com persistência dos dados em arquivos `.txt`.
+
 ---
 
-## ⚙️ Funcionalidades
+##  Funcionalidades
 
 - Cadastro de pets com validação de dados
 - Busca por múltiplos critérios
@@ -22,7 +22,7 @@ cadastrar, buscar, alterar e deletar registros, com persistência dos dados em a
 
 ---
 
-## 🛠️ Conhecimentos Aplicados
+##  Conhecimentos Aplicados
 
 - Orientação a Objetos (OO)
 - Enums
@@ -33,7 +33,7 @@ cadastrar, buscar, alterar e deletar registros, com persistência dos dados em a
 
 ---
 
-## 📂 Estrutura dos Arquivos
+##  Estrutura dos Arquivos
 
 Cada pet é armazenado em um arquivo `.txt` contendo:
 
@@ -47,7 +47,7 @@ Cada pet é armazenado em um arquivo `.txt` contendo:
 
 ---
 
-## ▶️ Como Executar
+## ▶️Como Executar
 
 1. Clone o repositório
 2. Compile o projeto
