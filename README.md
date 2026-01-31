@@ -47,7 +47,7 @@ Cada pet é armazenado em um arquivo `.txt` contendo:
 
 ---
 
-## ▶️Como Executar
+## Como Executar
 
 1. Clone o repositório
 2. Compile o projeto
