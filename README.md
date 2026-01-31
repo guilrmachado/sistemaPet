@@ -45,6 +45,8 @@ Cada pet é armazenado em um arquivo `.txt` contendo:
 6. Peso
 7. Raça
 
+Os arquivos de pets são gerados em tempo de execução e não fazem parte do versionamento.
+
 ---
 
 ## Como Executar
