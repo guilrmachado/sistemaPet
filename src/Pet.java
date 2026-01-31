@@ -125,6 +125,7 @@ public class Pet {
                 "Número: " + casa + "\n" +
                 "Bairro: " + bairro + "\n" +
                 "Cidade: " + cidade + "\n" +
+                "Raça: " + raca + "\n" +
                 "------------------------\n";
     }
 

@@ -104,10 +104,6 @@ public class Main {
                     System.out.println("Erro inesperado: " + e.getMessage());
                 }
             }
-            if (opcao == 6) {
-                System.out.println("Encerrando sistema...");
-                break;
-            }
             if (opcao == 2){
                 buscarPet(sc,false);
                 continue;
@@ -115,6 +111,14 @@ public class Main {
             if (opcao == 3){
                 alterarPet(sc);
                 continue;
+            }
+            if (opcao == 4){
+                deletarPet(sc);
+                continue;
+            }
+            if (opcao == 5) {
+                System.out.println("Encerrando sistema...");
+                break;
             }
         }
     }
@@ -126,8 +130,7 @@ public class Main {
             System.out.println("2 - Buscar dados do pet cadastrado");
             System.out.println("3 - Alterar um pet cadastrado");
             System.out.println("4 - Deletar um pet cadastrado");
-            System.out.println("5 - Listar pets por algum critério (idade, nome, raça)");
-            System.out.println("6 - Sair");
+            System.out.println("5 - Sair");
             String entrada = sc.nextLine();
             try {
                 int num = Integer.parseInt(entrada);
@@ -371,4 +374,30 @@ public class Main {
         }
     }
 
+    public static void deletarPet(Scanner sc) {
+        System.out.println("-----DELETAR PET-----");
+        File arquivoSelecionado = buscarPet(sc, true);
+        if (arquivoSelecionado == null){
+            System.out.println("Nenhum pet encontrado para alteração.");
+            return;
+        }
+        System.out.println("Você deseja deletar esse pet? ");
+        System.out.println("1 - Sim");
+        System.out.println("2 - Não");
+        int sn = sc.nextInt();
+        sc.nextLine();
+        if (sn == 2){
+            System.out.print("Voltando ao menu...");
+            return;
+        }
+       if (sn == 1){
+           try {
+               Files.delete(arquivoSelecionado.toPath());
+               System.out.println("Pet excluído com sucesso!");
+               return;
+           } catch (IOException e) {
+               throw new RuntimeException("Erro ao remover o pet: " + e.getMessage());
+           }
+       }
+    }
 }
