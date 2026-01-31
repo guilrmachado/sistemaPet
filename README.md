@@ -1,48 +1,57 @@
+```md
+# 🐾 Sistema de Cadastro de Pets (CLI)
 
+Projeto desenvolvido em Java como parte de um desafio prático, utilizando conceitos de Orientação a Objetos e boas práticas de programação.
 
-📑 Sistema de Cadastro de Pets (Java)
-📖 Descrição
+---
 
-Aplicação em Java para gerenciamento de cadastro de pets via terminal, com funcionalidades completas de CRUD (Criar, Buscar, Alterar e Deletar). Os dados são persistidos em arquivos .txt, simulando um sistema simples de armazenamento sem banco de dados.
+## 📌 Descrição
 
-⚙️ Funcionalidades
+Aplicação de linha de comando (CLI) para gerenciamento de pets, permitindo cadastrar, buscar, alterar e deletar registros, com persistência dos dados em arquivos `.txt`.
 
-Cadastro de pets com validação de dados
+---
 
-Busca por diferentes critérios
+## ⚙️ Funcionalidades
 
-Listagem formatada dos pets encontrados
+- Cadastro de pets com validação de dados
+- Busca por múltiplos critérios
+- Listagem formatada dos pets encontrados
+- Alteração de informações de um pet selecionado
+- Exclusão de pets
+- Armazenamento dos dados em arquivos
 
-Alteração de dados de um pet selecionado
+---
 
-Exclusão de pets cadastrados
+## 🛠️ Conhecimentos Aplicados
 
-Persistência em arquivos
+- Orientação a Objetos (OO)
+- Enums
+- Manipulação de arquivos (java.nio)
+- Coleções (`List`, `ArrayList`)
+- Tratamento de exceções
+- Validação de entrada do usuário
 
-Uso de enums para controle de valores válidos
+---
 
-🛠️ Tecnologias e conceitos utilizados
+## 📂 Estrutura dos Arquivos
 
-Java
+Cada pet é armazenado em um arquivo `.txt` contendo:
 
-Orientação a Objetos
+1. Nome
+2. Tipo
+3. Sexo
+4. Endereço
+5. Idade
+6. Peso
+7. Raça
 
-Enums
+---
 
-Manipulação de arquivos com java.nio
+## ▶️ Como Executar
 
-Validação de entrada do usuário
+1. Clone o repositório
+2. Compile o projeto
+3. Execute a classe `Main`
+4. Utilize o menu interativo no terminal
 
-Estruturas de controle e listas
-
-Organização de código em métodos
-
-▶️ Como executar
-
-Clone o repositório
-
-Compile o projeto
-
-Execute a classe Main
-
-Utilize o menu para interagir com o sistema
+---
