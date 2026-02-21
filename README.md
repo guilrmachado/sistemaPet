@@ -1,5 +1,5 @@
 
-# 🐾 Sistema de Cadastro de Pets (CLI)
+#  Sistema de Cadastro de Pets (CLI)
 
 Projeto desenvolvido em Java como parte de um desafio prático, utilizando conceitos de Orientação a Objetos e boas práticas de programação.
 
@@ -57,3 +57,11 @@ Os arquivos de pets são gerados em tempo de execução e não fazem parte do ve
 4. Utilize o menu interativo no terminal
 
 ---
+
+## Autor
+
+Guilherme Machado
+
+Estudante de Ciência da Computação – UERJ
+
+Foco em Backend Java e Spring
